@@ -29,16 +29,13 @@ typedef void(^OrientationDidSwitchBlock)(MDHOrientationSwitcher *switcher, BOOL 
 
 @property (nonatomic, readonly) UIInterfaceOrientation currentOrientation; /* 当前屏幕方向 */
 
-@property (nonatomic, strong) UIView *fullScreenContainerView; /* 全屏状态下承载smallView的容器View 《keyWindow》*/
-@property (nonatomic, weak) UIView *smallContainerView; /* 未处于全屏状态的smallView的容器View */
+@property (nonatomic, weak) UIView *playerContainerView; /* 未处于全屏状态的smallView的容器View */
 
-@property (nonatomic, weak) UIView *smallView; /* 小图 */
+@property (nonatomic, strong) UIView *fullScreenContainerView; /* 全屏状态下承载smallView的容器View 《keyWindow》*/
 
 @property (nonatomic, readonly, getter=isFullScreen) BOOL fullScreen; /* 当前是否处于全屏状态 */
 
-@property (nonatomic, getter=isStatusBarHidden) BOOL statusBarHidden;
-
-@property (nonatomic, assign) BOOL testBar;
+@property (nonatomic, getter=isStatusBarHidden) BOOL statusBarHidden; /* statusBar是否隐藏 */
 
 
 /// Whether automatic screen rotation is supported.
@@ -47,10 +44,8 @@ typedef void(^OrientationDidSwitchBlock)(MDHOrientationSwitcher *switcher, BOOL 
 @property (nonatomic, readonly) BOOL shouldAutorotate;
 
 
-/// The block invoked When player will rotate.
-@property (nonatomic, copy, nullable) OrientationWillSwitchBlock orientationWillSwitchBlock;
 
-/// The block invoked when player rotated.
+@property (nonatomic, copy, nullable) OrientationWillSwitchBlock orientationWillSwitchBlock;
 @property (nonatomic, copy, nullable) OrientationDidSwitchBlock orientationDidSwitchBlock;
 
 
@@ -62,10 +57,14 @@ typedef void(^OrientationDidSwitchBlock)(MDHOrientationSwitcher *switcher, BOOL 
 
 
 
-/// Enter the fullScreen while the ZFFullScreenMode is ZFFullScreenModeLandscape.
+/*
+ 进入 or 退出《横-全屏》
+ */
 - (void)enterLandscapeFullScreen:(UIInterfaceOrientation)orientation animated:(BOOL)animated;
 
-/// Enter the fullScreen while the ZFFullScreenMode is ZFFullScreenModePortrait.
+/*
+ 进入 or 退出《竖-全屏》
+ */
 - (void)enterPortraitFullScreen:(BOOL)fullScreen animated:(BOOL)animated;
 
 @end

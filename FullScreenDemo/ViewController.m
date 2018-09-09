@@ -33,10 +33,6 @@
     
     [self.view addSubview:self.smallContainerView];
     [self.smallContainerView addSubview:self.smallView];
-   
-    self.smallView.frame = self.smallContainerView.bounds;
-    self.smallView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-
     
     
     [self.smallView addSubview:self.playBtn];
@@ -55,15 +51,7 @@
     orientationSwitcher.orientationDidSwitchBlock = ^(MDHOrientationSwitcher *switcher, BOOL isFullScreen) {
         
     };
-    
 }
-
-
-//- (void)viewWillLayoutSubviews {
-//
-//}
-
-
 
 
 - (void)switchButtonClick:(UIButton *)button {
@@ -91,7 +79,7 @@
 
 - (BOOL)prefersStatusBarHidden {
     
-    NSLog(@"\n\n\n prefersStatusBarHidden +++++++++++++++%@\n\n\n",orientationSwitcher.testBar?@"Y":@"N");
+    NSLog(@"\n\n\n prefersStatusBarHidden +++++++++++++++%@\n\n\n",orientationSwitcher.isStatusBarHidden?@"Y":@"N");
 
     return orientationSwitcher.isStatusBarHidden;
 }
@@ -133,12 +121,9 @@
 - (UIView *)smallView {
     if (!_smallView) {
         
-//        _smallView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200)];
-//        _smallView = [[UIView alloc] initWithFrame:self.smallContainerView.bounds];
-        _smallView = [[UIView alloc] init];
+        _smallView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.smallContainerView.bounds.size.width, self.smallContainerView.bounds.size.height)];
         _smallView.backgroundColor = [UIColor redColor];
-//        _smallView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-
+        _smallView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     }
     return _smallView;
 }
