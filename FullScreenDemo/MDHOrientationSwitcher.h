@@ -25,7 +25,7 @@ typedef void(^OrientationDidSwitchBlock)(MDHOrientationSwitcher *switcher, BOOL 
 @interface MDHOrientationSwitcher : NSObject
 
 
-@property (nonatomic) MDHFullScreenMode fullScreenMode; /* MDHFullScreenMode */
+@property (nonatomic, readonly) MDHFullScreenMode fullScreenMode; /* MDHFullScreenMode */
 
 @property (nonatomic, readonly) UIInterfaceOrientation currentOrientation; /* 当前屏幕方向 */
 
@@ -49,13 +49,13 @@ typedef void(^OrientationDidSwitchBlock)(MDHOrientationSwitcher *switcher, BOOL 
 @property (nonatomic, copy, nullable) OrientationDidSwitchBlock orientationDidSwitchBlock;
 
 
+- (instancetype)initWithFullScreenModel:(MDHFullScreenMode)model;
+
 /*
  rotateView: 需要旋转的view
  containerView： 需要旋转的view 的容器View
  */
 - (void)updateRotateView:(UIView *)rotateView containerView:(UIView *)containerView;
-
-
 
 /*
  进入 or 退出《横-全屏》

@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "MDHOrientationSwitcher.h"
+#import "MDHAVPlayerView.h"
 
 
 @interface ViewController () {
@@ -16,8 +17,8 @@
 }
 
 @property (nonatomic, strong) UIView *smallContainerView;
-@property (nonatomic, strong) UIView *smallView;
-@property (nonatomic, strong) UIButton *playBtn;
+@property (nonatomic, strong) MDHAVPlayerView *smallView;
+//@property (nonatomic, strong) UIButton *playBtn;
 
 
 @end
@@ -34,12 +35,10 @@
     [self.view addSubview:self.smallContainerView];
     [self.smallContainerView addSubview:self.smallView];
     
-    
-    [self.smallView addSubview:self.playBtn];
-    self.playBtn.center = self.smallView.center;
-    
-    orientationSwitcher = [[MDHOrientationSwitcher alloc] init];
-    orientationSwitcher.fullScreenMode = MDHFullScreenModeLandscape;
+    [self.smallView.playBtn  addTarget:self action:@selector(switchButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+
+
+    orientationSwitcher = [[MDHOrientationSwitcher alloc] initWithFullScreenModel:MDHFullScreenModePortrait];
     [orientationSwitcher updateRotateView:self.smallView containerView:self.smallContainerView];
 
     __weak typeof(self) weakSelf = self;
@@ -58,6 +57,8 @@
     
     if (orientationSwitcher.fullScreenMode == MDHFullScreenModePortrait) {
         
+        [orientationSwitcher enterPortraitFullScreen:!orientationSwitcher.isFullScreen animated:YES];
+
     } else {
         
         UIInterfaceOrientation orientation = UIInterfaceOrientationUnknown;
@@ -79,8 +80,6 @@
 
 - (BOOL)prefersStatusBarHidden {
     
-    NSLog(@"\n\n\n prefersStatusBarHidden +++++++++++++++%@\n\n\n",orientationSwitcher.isStatusBarHidden?@"Y":@"N");
-
     return orientationSwitcher.isStatusBarHidden;
 }
 
@@ -90,8 +89,6 @@
 
 - (BOOL)shouldAutorotate {
     
-    NSLog(@"\n\n\n shouldAutorotate ============%@\n\n\n",orientationSwitcher.shouldAutorotate?@"Y":@"N");
-
     return orientationSwitcher.shouldAutorotate;
 }
 
@@ -121,26 +118,11 @@
 - (UIView *)smallView {
     if (!_smallView) {
         
-        _smallView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.smallContainerView.bounds.size.width, self.smallContainerView.bounds.size.height)];
+        _smallView = [[MDHAVPlayerView alloc] initWithFrame:CGRectMake(0, 0, self.smallContainerView.bounds.size.width, self.smallContainerView.bounds.size.height)];
         _smallView.backgroundColor = [UIColor redColor];
         _smallView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     }
     return _smallView;
-}
-
-- (UIButton *)playBtn {
-    if (!_playBtn) {
-        _playBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _playBtn.frame = CGRectMake(0, 0, 80, 80);
-        _playBtn.backgroundColor = [UIColor blackColor];
-        [_playBtn setTitle:@"Touch" forState:UIControlStateNormal];
-        [_playBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [_playBtn addTarget:self action:@selector(switchButtonClick:) forControlEvents:UIControlEventTouchUpInside];
- 
-//        _playBtn.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-
-    }
-    return _playBtn;
 }
 
 
