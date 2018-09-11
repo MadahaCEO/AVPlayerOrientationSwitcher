@@ -34,7 +34,7 @@ static CGFloat switchDuration = 0.25; /* 旋转时间 */
     self = [super init];
     if (self) {
         
-        _fullScreenMode = model;
+        _fullScreenMode = model?:MDHFullScreenModePortrait;
         
         [self addDeviceOrientationObserver];
     }
@@ -289,34 +289,45 @@ static CGFloat switchDuration = 0.25; /* 旋转时间 */
 
 /// 是否支持 Portrait
 - (BOOL)isSupportedPortrait {
-//    return self.supportInterfaceOrientation & ZFInterfaceOrientationMaskPortrait;
     return YES;
-
 }
 
 /// 是否支持 LandscapeLeft
 - (BOOL)isSupportedLandscapeLeft {
-//    return self.supportInterfaceOrientation & ZFInterfaceOrientationMaskLandscapeLeft;
-
     return YES;
 }
 
 /// 是否支持 LandscapeRight
 - (BOOL)isSupportedLandscapeRight {
-//    return self.supportInterfaceOrientation & ZFInterfaceOrientationMaskLandscapeRight;
     return YES;
-
 }
 
 
 - (void)interfaceOrientation:(UIInterfaceOrientation)orientation {
     if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
         SEL selector = NSSelectorFromString(@"setOrientation:");
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+        
+        /*
+         在 iOS中可以直接调用某个对象的消息方式有两种：
+         1. performSelector:withObject；
+         2. NSInvocation。
+         
+         NSInvocation;用来包装方法和对应的对象，它可以存储方法的名称，对应的对象，对应的参数,
+
+         NSMethodSignature：签名：再创建NSMethodSignature的时候，必须传递一个签名对象，
+                            签名对象的作用：用于获取参数的个数和方法的返回值
+                            创建签名对象的时候不是使用NSMethodSignature这个类创建，而是方法属于谁就用谁来创建 UIDevice
+         */
+        NSMethodSignature*signature = [UIDevice instanceMethodSignatureForSelector:selector];
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
         [invocation setSelector:selector];
         [invocation setTarget:[UIDevice currentDevice]];
         int val = orientation;
+        
+        //注意：设置参数的索引时不能从0开始，因为0已经被self占用，1已经被_cmd占用
         [invocation setArgument:&val atIndex:2];
+        
+        //只要调用invocation的invoke方法，就代表需要执行NSInvocation对象中制定对象的指定方法，并且传递指定的参数
         [invocation invoke];
     }
 }
