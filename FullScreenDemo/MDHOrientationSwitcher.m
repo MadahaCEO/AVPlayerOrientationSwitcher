@@ -31,21 +31,22 @@ static CGFloat switchDuration = 0.25; /* 旋转时间 */
     [self removeDeviceOrientationObserver];
 }
 
-- (instancetype)initWithFullScreenModel:(MDHFullScreenMode)model {
+- (instancetype)initWithRotateView:(UIView *)rotateView containerView:(UIView *)containerView FullScreenModel:(MDHFullScreenMode)mode {
     self = [super init];
     if (self) {
-        
-        self.fullScreenMode =  model;
+
+        _playerView = rotateView;
+        _playerContainerView = containerView;
+        _fullScreenMode = mode;
         
         [self addDeviceOrientationObserver];
     }
     return self;
 }
 
-- (MDHFullScreenMode)fullScreenMode {
-    return _fullScreenMode;
+- (void)setFullScreenMode:(MDHFullScreenMode)fullScreenMode {
+    _fullScreenMode = fullScreenMode;
 }
-
 
 
 // 获取视频view and 承载视频的view

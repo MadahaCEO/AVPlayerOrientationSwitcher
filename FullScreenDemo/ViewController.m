@@ -42,8 +42,9 @@
     /*
      初始化横-全屏
      */
-    orientationSwitcher = [[MDHOrientationSwitcher alloc] initWithFullScreenModel:MDHFullScreenModeLandscape];
-    [orientationSwitcher updateRotateView:self.smallView containerView:self.smallContainerView];
+    orientationSwitcher = [[MDHOrientationSwitcher alloc] initWithRotateView:self.smallView
+                                                               containerView:self.smallContainerView
+                                                             FullScreenModel:MDHFullScreenModeLandscape];
 
     __weak typeof(self) weakSelf = self;
     orientationSwitcher.orientationWillSwitchBlock = ^(MDHOrientationSwitcher *switcher, BOOL isFullScreen) {
@@ -74,7 +75,7 @@
 
 
 
-#pragma mark - 旋转 与 状态栏 
+#pragma mark - 旋转 与 状态栏
 - (UIStatusBarStyle)preferredStatusBarStyle {
     if (orientationSwitcher.isFullScreen) {
         return UIStatusBarStyleLightContent;

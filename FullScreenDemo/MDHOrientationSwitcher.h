@@ -49,13 +49,10 @@ typedef void(^OrientationDidSwitchBlock)(MDHOrientationSwitcher *switcher, BOOL 
 @property (nonatomic, copy, nullable) OrientationDidSwitchBlock orientationDidSwitchBlock;
 
 
-- (instancetype)initWithFullScreenModel:(MDHFullScreenMode)model;
+- (instancetype)initWithRotateView:(UIView *)rotateView
+                     containerView:(UIView *)containerView
+                   FullScreenModel:(MDHFullScreenMode)mode;
 
-/*
- rotateView: 需要旋转的view
- containerView： 需要旋转的view 的容器View
- */
-- (void)updateRotateView:(UIView *)rotateView containerView:(UIView *)containerView;
 
 /*
  进入 or 退出《横-全屏》
