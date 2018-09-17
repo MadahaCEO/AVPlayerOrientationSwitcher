@@ -25,9 +25,9 @@ typedef void(^OrientationDidSwitchBlock)(MDHOrientationSwitcher *switcher, BOOL 
 @interface MDHOrientationSwitcher : NSObject
 
 
-@property (nonatomic, readonly) MDHFullScreenMode fullScreenMode; /* MDHFullScreenMode */
+@property (nonatomic, assign, readonly) MDHFullScreenMode fullScreenMode; /* MDHFullScreenMode */
 
-@property (nonatomic, readonly) UIInterfaceOrientation currentOrientation; /* 当前屏幕方向 */
+@property (nonatomic, assign, readonly) UIInterfaceOrientation currentOrientation; /* 当前屏幕方向 */
 
 @property (nonatomic, weak) UIView *playerContainerView; /* 未处于全屏状态的smallView的容器View */
 

@@ -16,6 +16,7 @@ static CGFloat switchDuration = 0.25; /* 旋转时间 */
 @interface MDHOrientationSwitcher ()
 
 @property (nonatomic, weak) UIView *playerView; /* 小图 */
+@property (nonatomic, assign) MDHFullScreenMode fullScreenMode; /* MDHFullScreenMode */
 
 @end
 
@@ -34,12 +35,18 @@ static CGFloat switchDuration = 0.25; /* 旋转时间 */
     self = [super init];
     if (self) {
         
-        _fullScreenMode = model?:MDHFullScreenModePortrait;
+        self.fullScreenMode =  model;
         
         [self addDeviceOrientationObserver];
     }
     return self;
 }
+
+- (MDHFullScreenMode)fullScreenMode {
+    return _fullScreenMode;
+}
+
+
 
 // 获取视频view and 承载视频的view
 - (void)updateRotateView:(UIView *)rotateView
@@ -84,6 +91,10 @@ static CGFloat switchDuration = 0.25; /* 旋转时间 */
         // 即将旋转回调
         if (self.orientationWillSwitchBlock) self.orientationWillSwitchBlock(self, self.isFullScreen);
 
+        /*
+         横-全屏：加载到window上
+         竖-全屏：加载到containerView上
+         */
         [superView addSubview:self.playerView];
         if (animated) {
             [UIView animateWithDuration:switchDuration animations:^{
@@ -180,7 +191,6 @@ static CGFloat switchDuration = 0.25; /* 旋转时间 */
         if (self.orientationDidSwitchBlock) self.orientationDidSwitchBlock(self, self.isFullScreen);
 
     }
-    
 }
 
 

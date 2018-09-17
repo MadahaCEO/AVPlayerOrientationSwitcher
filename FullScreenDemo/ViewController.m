@@ -18,7 +18,6 @@
 
 @property (nonatomic, strong) UIView *smallContainerView;
 @property (nonatomic, strong) MDHAVPlayerView *smallView;
-//@property (nonatomic, strong) UIButton *playBtn;
 
 
 @end
@@ -35,10 +34,15 @@
     [self.view addSubview:self.smallContainerView];
     [self.smallContainerView addSubview:self.smallView];
     
+    /*
+     外层绑定方法方便调用（省事儿）
+     */
     [self.smallView.playBtn  addTarget:self action:@selector(switchButtonClick:) forControlEvents:UIControlEventTouchUpInside];
 
-
-    orientationSwitcher = [[MDHOrientationSwitcher alloc] initWithFullScreenModel:MDHFullScreenModePortrait];
+    /*
+     初始化横-全屏
+     */
+    orientationSwitcher = [[MDHOrientationSwitcher alloc] initWithFullScreenModel:MDHFullScreenModeLandscape];
     [orientationSwitcher updateRotateView:self.smallView containerView:self.smallContainerView];
 
     __weak typeof(self) weakSelf = self;
@@ -70,7 +74,7 @@
 
 
 
-
+#pragma mark - 旋转 与 状态栏 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     if (orientationSwitcher.isFullScreen) {
         return UIStatusBarStyleLightContent;
@@ -79,7 +83,6 @@
 }
 
 - (BOOL)prefersStatusBarHidden {
-    
     return orientationSwitcher.isStatusBarHidden;
 }
 
@@ -88,7 +91,6 @@
 }
 
 - (BOOL)shouldAutorotate {
-    
     return orientationSwitcher.shouldAutorotate;
 }
 
